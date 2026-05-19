@@ -36,8 +36,13 @@ def buscar_telefone(url):
                 
     except Exception as e:
         print(f"Erro ao acessar a URL {url}: {e}")
+    except KeyboardInterrupt:
+        pass
     
-    return telefones
+    if telefones:
+        return telefones
+    else:
+        print("Nada foi encontrado.")
 
 
 def buscar_email(url):
@@ -58,8 +63,12 @@ def buscar_email(url):
                 
     except Exception as e:
         print(f"Erro ao acessar a URL {url}: {e}")
-    
-    return emails
+    except KeyboardInterrupt:
+        pass
+    if emails:
+        return emails
+    else:
+        print("Nada foi encontrado.")
 
 
 def buscar_cpf(url):
@@ -81,8 +90,13 @@ def buscar_cpf(url):
                 
     except Exception as e:
         print(f"Erro ao acessar a URL {url}: {e}")
+    except KeyboardInterrupt:
+        pass
     
-    return cpfs
+    if cpfs:
+        return cpfs
+    else:
+        print("Nada foi encontrado.")
 
 
 def buscar_cnpj(url):
@@ -104,8 +118,13 @@ def buscar_cnpj(url):
                 
     except Exception as e:
         print(f"Erro ao acessar a URL {url}: {e}")
+    except KeyboardInterrupt:
+        pass
     
-    return cnpjs
+    if cnpjs:
+        return cnpjs
+    else:
+        print("Nada foi encontrado.")
 
 
 def buscar_links(url):
@@ -135,13 +154,17 @@ def buscar_links(url):
         print(e)
     except KeyboardInterrupt:
         pass
+    return CRAWLED
 
-"""t1 = threading.Thread(buscar_links("http://example.com"))
-t2 = threading.Thread(buscar_links("http://example.com"))
 
-t1.start()
-t2.start()
-
-t1.join()
-t2.join()
-print(CRAWLED)"""
+def salvar(informacao,nome):
+    if type(informacao) == set:
+        informacao = list(informacao)
+    try:
+        with open(f'{nome}.txt', 'w', encoding='utf-8') as file:
+            for i in informacao:
+                file.write(i+'\n')
+            print("Arquivo salvo com sucesso!")
+    except Exception as e:
+        print(f"Não foi possivel salvar o arquivo.")
+        print(e)
