@@ -35,7 +35,7 @@ if __name__ == "__main__":
         print(f"│               v1.0               │".center(77))
         print(f"                     │   Developed by Kauan dos Santos  │{RESET}")
         print(f"{AMARELO}" + "└──────────────────────────────────┘".center(77) + f"{RESET}")
-
+        
         print()
         print()
 

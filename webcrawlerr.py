@@ -14,7 +14,7 @@ REGEX = {
     "CPF_ocultos": r'[0-9*]{3}\.[0-9*]{3}\.[0-9*]{3}-[0-9*]{2}'
 }
 
-TOCRAWLER = []
+TOCRAWLER = set()
 CRAWLED = set()
 
 
@@ -32,7 +32,7 @@ def buscar_telefone(url):
                 print(f"Telefone encontrado: {tel}")
                 telefones.append(tel)
         elif resposta.status_code != 404:
-            print("Não foi possivel acessar a pagina")
+            print(f"Não foi possivel acessar a pagina --> {resposta.status_code}")
                 
     except Exception as e:
         print(f"Erro ao acessar a URL {url}: {e}")
@@ -59,7 +59,7 @@ def buscar_email(url):
                 print(f"E-mail encontrado: {email}")
                 emails.append(email)
         elif resposta.status_code != 404:
-            print("Não foi possivel acessar a pagina")
+            print(f"Não foi possivel acessar a pagina --> {resposta.status_code}")
                 
     except Exception as e:
         print(f"Erro ao acessar a URL {url}: {e}")
@@ -86,7 +86,7 @@ def buscar_cpf(url):
                     print(f"CPF encontrado: {cpf}")
                     cpfs.append(cpf)
         elif resposta.status_code != 404:
-            print("Não foi possivel acessar a pagina")
+            print(f"Não foi possivel acessar a pagina --> {resposta.status_code}")
                 
     except Exception as e:
         print(f"Erro ao acessar a URL {url}: {e}")
@@ -114,7 +114,7 @@ def buscar_cnpj(url):
                     print(f"CNPJ encontrado: {cnpj}")
                     cnpjs.append(cnpj)
         elif resposta.status_code != 404:
-            print("Não foi possivel acessar a pagina")
+            print(f"Não foi possivel acessar a pagina --> {resposta.status_code}")
                 
     except Exception as e:
         print(f"Erro ao acessar a URL {url}: {e}")
@@ -128,27 +128,30 @@ def buscar_cnpj(url):
 
 
 def buscar_links(url):
-    TOCRAWLER.append(url)
+    TOCRAWLER.add(url)
     try:
         while TOCRAWLER:
             link = TOCRAWLER.pop()
-            if link not in TOCRAWLER and link not in CRAWLED:
-                CRAWLED.add(link)
+            if link not in CRAWLED:
                 resposta = requests.get(link)
+                CRAWLED.add(f"{link} --> {resposta.status_code}")
+                print(f"Link: {link} adicionado!")
                 if resposta.status_code == 200:
                     html = resposta.text
                     soup = BeautifulSoup(html, 'html.parser')
             
-                    for link in soup.find_all('a'):
-                        href = link.get("href")
+                    for l in soup.find_all('a'):
+                        href = l.get("href")
                         if href and href.startswith("http"):
                             print(f"{href} --> 200✅")
-                            TOCRAWLER.append(href)
+                            TOCRAWLER.add(href)
                             
 
                 elif resposta.status_code != 404:
                     print(f"{link} --> {resposta.status_code}")
-
+                
+                else:
+                    print(f"Não foi possivel acessar")
 
     except Exception as e:
         print(e)
