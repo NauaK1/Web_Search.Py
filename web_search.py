@@ -33,8 +33,9 @@ if __name__ == "__main__":
         print(f"{AMARELO}" + "┌──────────────────────────────────┐".center(77))
         print(f"│          web.search.py           │".center(77).replace("web.search.py", f"{VERDE}web.search.py{AMARELO}"))
         print(f"│               v1.0               │".center(77))
-        print(f"│        Developed by Nauak        │".center(77) + f"{RESET}")
+        print(f"                     │   Developed by Kauan dos Santos  │{RESET}")
         print(f"{AMARELO}" + "└──────────────────────────────────┘".center(77) + f"{RESET}")
+
         print()
         print()
 
